@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <h1>Contact Info</h1>
@@ -12,6 +13,30 @@
         <a href="../projects/index.html">Projects</a>
         <a href="../contact/index.html">Contact</a>
         <a href="https://github.com/nitinnel123" target="_blank">GitHub</a>
-      </nav>
+    </nav>
+    <h2>Send me a message</h2>
+
+  <form action="mailto:nnellisserry@ucsd.edu" method="POST" enctype="text/plain">
+    <label>
+      Your Email: 
+      <input type="email" name="email" required>
+    </label>
+    <br><br>
+
+    <label>
+      Subject: 
+      <input name="subject" required>
+    </label>
+    <br><br>
+
+    <label>
+      Message: 
+      <textarea name="body" rows="5" cols="40" required></textarea>
+    </label>
+    <br><br>
+
+    <button>Send</button>
+  </form>
+
 </body>
 </html>
