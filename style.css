@@ -1,6 +1,55 @@
+:root {
+  --color-accent: oklch(65% 0.5 0);
+}
+
+html { accent-color: var(--color-accent); }
 body {
   font: 100%/1.5 system-ui;
   max-width: 100ch;
   margin-inline: auto;
   padding-inline: 1rem;
+}
+
+nav ul,
+nav li {
+  display: contents;            
+  list-style: none;              
+  margin: 0;
+  padding: 0;
+}
+
+
+nav {
+  display: flex;                 
+  gap: 0;                         
+  margin-bottom: 1rem;            
+  border-bottom: 1px solid oklch(80% 0.03 200); 
+}
+
+nav > a {
+  flex: 1;                       
+  text-align: center;            
+  text-decoration: none;          
+  color: inherit;                
+  padding: 0.5em;                 
+  border-bottom: 0 solid transparent; 
+}
+
+
+nav > a.current {
+  border-bottom: 0.4em solid oklch(80% 0.03 200); 
+  padding-bottom: calc(0.5em - 0.4em);            
+}
+
+
+nav > a:hover,
+nav > a:focus-visible {
+  border-bottom: 0.4em solid var(--color-accent);
+  padding-bottom: calc(0.5em - 0.4em);
+  outline: none; 
+}
+
+nav > a:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-accent) 30%, white);
+  border-radius: 0.25rem;
 }
