@@ -53,3 +53,35 @@ nav > a:focus-visible {
   box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-accent) 30%, white);
   border-radius: 0.25rem;
 }
+
+form {
+  display: grid;
+  grid-template-columns: auto 1fr;  
+  align-items: center;               
+  gap: 1em;                          
+}
+
+form > label {
+  grid-column: 1 / -1;               
+  display: grid;
+  grid-template-columns: subgrid;    
+  column-gap: 1em;
+}
+
+
+form > label > input,
+form > label > textarea {
+  grid-column: 2;                    
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.6rem 0.75rem;
+}
+
+
+form > button {
+  grid-column: 1 / -1;
+  justify-self: start;            
+  padding: 0.6rem 0.9rem;
+}
+
+input, textarea, button { font: inherit; }
