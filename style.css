@@ -129,6 +129,7 @@ input, textarea, button { font: inherit; }
 
 body.cv { background: #f8fafc; color: #0f172a; }
 
+
 body.cv .cv-container {
   max-width: 760px;         
   margin: 0 auto;          
