@@ -127,16 +127,30 @@ input, textarea, button { font: inherit; }
   line-height: 1.45;
 }
 
-body.cv {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: #f8fafc;
-  color: #0f172a;
-  margin: 0;
+body.cv .cv-container > h1 {
+  text-align: left !important; 
+  margin: 0 0 0.75rem;
+  font-size: 2rem;
+}
+
+
+body.cv .cv-container {
+  max-width: 760px;
+  margin: 0 auto;  
+  padding: 2rem 1rem;
+}
+
+body.cv .cv-nav {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center; 
+  margin-bottom: 1.5rem;
 }
 
 .cv-container {
   max-width: 760px;
-  margin: 0 auto;     
+  margin: 0 auto;       
   padding: 2rem 1rem;
 }
 
