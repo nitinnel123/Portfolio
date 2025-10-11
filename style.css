@@ -140,13 +140,6 @@ body.cv .cv-container {
   padding: 2rem 1rem;
 }
 
-body.cv .cv-nav {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center; 
-  margin-bottom: 1.5rem;
-}
 
 .cv-container {
   max-width: 760px;
@@ -160,19 +153,51 @@ body.cv .cv-nav {
   font-size: 2rem;
 }
 
-.cv-nav {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  justify-content: center;   
-  margin-bottom: 1.5rem;
+body.cv .cv-nav ul,
+body.cv .cv-nav li {
+  display: contents;           
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-.cv-nav a {
-  color: #2563eb;
-  text-decoration: none;
-}
-.cv-nav a:hover { text-decoration: underline; }
 
+body.cv .cv-nav {
+  display: flex;                 
+  gap: 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid oklch(80% 0.03 200);
+}
+
+
+:root { --color-accent: oklch(55% 0.12 250); }
+
+body.cv .cv-nav > a {
+  flex: 1;                       
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5em;
+  border-bottom: 0 solid transparent;
+}
+
+
+body.cv .cv-nav > a.current,
+body.cv .cv-nav > a[aria-current="page"] {
+  border-bottom: 0.4em solid oklch(80% 0.03 200);
+  padding-bottom: calc(0.5em - 0.4em);
+}
+
+body.cv .cv-nav > a:hover,
+body.cv .cv-nav > a:focus-visible {
+  border-bottom: 0.4em solid var(--color-accent);
+  padding-bottom: calc(0.5em - 0.4em);
+  outline: none;
+}
+
+body.cv .cv-nav > a:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-accent) 30%, white);
+  border-radius: 0.25rem;
+}
 .cv-card {
   background: #fff;
   border: 1px solid #e5e7eb;
