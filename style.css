@@ -95,7 +95,6 @@ form > button {
   border-radius: 3px;
   padding: 0.5rem;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
 input, textarea, button { font: inherit; }
