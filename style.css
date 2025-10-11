@@ -99,3 +99,30 @@ form > button {
 }
 
 input, textarea, button { font: inherit; }
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1rem;             
+  align-items: start;      
+}
+
+.projects img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;   
+  object-fit: cover;        
+  border-radius: 0.5rem;
+}
+
+.projects h2 {
+  font-size: 1.1rem;
+  margin: 0.25rem 0 0;
+  line-height: 1.2;
+}
+
+.projects p {
+  margin: 0;
+  color: #334155;
+  line-height: 1.45;
+}
