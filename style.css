@@ -126,3 +126,90 @@ input, textarea, button { font: inherit; }
   color: #334155;
   line-height: 1.45;
 }
+
+body.cv {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --line: #e5e7eb;
+  --accent: #2563eb;
+
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  padding: 2rem 1rem 3rem;
+}
+
+.cv-header { max-width: 960px; margin: 0 auto 1rem; }
+.cv-header h1 { margin: 0 0 .5rem; font-size: 2rem; }
+.cv-nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+.cv-nav a { color: var(--accent); text-decoration: none; }
+.cv-nav a:hover { text-decoration: underline; }
+
+
+.cv-grid {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr; 
+  gap: 1rem;
+}
+.cv-col { display: grid; gap: 1rem; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.card h2 {
+  margin: 0 0 .5rem;
+  font-size: 1rem;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.item { margin-top: .5rem; }
+.item header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: .75rem; margin-bottom: .25rem;
+}
+.item h3 { margin: 0; font-weight: 600; font-size: 1.05rem; }
+.meta { color: var(--muted); font-size: .9rem; white-space: nowrap; }
+
+.bullets { margin: .25rem 0 0; padding-left: 1.1rem; }
+.bullets li { margin: .2rem 0; }
+
+.tags {
+  display: flex; flex-wrap: wrap; gap: .4rem .5rem;
+  list-style: none; padding: 0; margin: 0;
+}
+.tags li {
+  padding: .2rem .5rem;
+  border-radius: 999px;
+  background: #dbeafe;
+  border: 1px solid var(--line);
+  font-size: .9rem;
+}
+.list-plain { list-style: none; padding: 0; margin: 0; }
+.list-plain li { padding: .15rem 0; }
+
+@media (max-width: 860px) {
+  body.cv { padding: 1rem; }
+  .cv-grid { grid-template-columns: 1fr; }
+  .item header { flex-direction: column; align-items: flex-start; gap: .15rem; }
+  .meta { white-space: normal; }
+}
+
+@media print {
+  body.cv { background: #fff; color: #000; padding: 0; }
+  .cv-header, .cv-grid { max-width: 100%; margin: 0; }
+  .card { border: 0; box-shadow: none; padding: 0; }
+  .cv-grid, .cv-col { gap: .6rem; }
+  .cv-nav { display: none; }  
+  @page { margin: 0.5in; }
+}

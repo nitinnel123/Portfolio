@@ -6,79 +6,78 @@
   <title>Resume</title>
   <link rel="stylesheet" href="../style.css">
 </head>
-<body>
-  <h1>Resume</h1>
+<body class="cv">
+  <header class="cv-header">
+    <h1>Resume</h1>
+    <nav aria-label="Primary" class="cv-nav">
+      <a href="../index.html">Home</a>
+      <a href="../projects/index.html">Projects</a>
+      <a href="../contact/index.html">Contact</a>
+      <a href="../cv/index.html">CV</a>
+      <a href="https://github.com/nitinnel123" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
 
-  <nav aria-label="Primary">
-    <a href="../index.html">Home</a>
-    <a href="../projects/index.html">Projects</a>
-    <a href="../contact/index.html">Contact</a>
-    <a href="../cv/index.html">CV</a>
-    <a href="https://github.com/nitinnel123" target="_blank">GitHub</a>
-  </nav>
+  <main class="cv-grid">
+    <section class="cv-col">
+      <section class="card">
+        <h2>Work Experience</h2>
+        <article class="item">
+          <header>
+            <h3>Systems Engineer — Defense Company Inc.</h3>
+            <span class="meta"><time datetime="2021-08">Aug 2021</time> – Present</span>
+          </header>
+          <ul class="bullets">
+            <li>Developed requirements traceability in DOORS for large defense programs</li>
+            <li>Integrated network architecture changes across multiple teams</li>
+            <li>Led verification activities for cybersecurity compliance</li>
+          </ul>
+        </article>
+      </section>
 
-  <section>
-    <header>
-      <h2>Personal Information</h2>
-    </header>
-    <p><strong>Name:</strong> John Doe</p>
-    <p><strong>Email:</strong> john.doe@example.com</p>
-    <p><strong>Location:</strong> San Diego, CA</p>
-  </section>
+      <section class="card">
+        <h2>Education</h2>
+        <article class="item">
+          <header>
+            <h3>Master of Science in Data Science — University of Example</h3>
+            <span class="meta"><time datetime="2023-09">Sep 2023</time> – <time datetime="2025-06">Jun 2025</time></span>
+          </header>
+        </article>
+        <article class="item">
+          <header>
+            <h3>Bachelor of Science in Electrical Engineering — Example State University</h3>
+            <span class="meta"><time datetime="2017-09">Sep 2017</time> – <time datetime="2021-06">Jun 2021</time></span>
+          </header>
+        </article>
+      </section>
+    </section>
+    
+    <aside class="cv-col">
+      <section class="card">
+        <h2>Personal Information</h2>
+        <p><strong>Name:</strong> John Doe</p>
+        <p><strong>Email:</strong> <a href="mailto:john.doe@example.com">john.doe@example.com</a></p>
+        <p><strong>Location:</strong> San Diego, CA</p>
+      </section>
 
+      <section class="card">
+        <h2>Certifications</h2>
+        <ul class="list-plain">
+          <li>ASEP (INCOSE)</li>
+          <li>Security+ (CompTIA)</li>
+          <li>Machine Learning Specialization</li>
+        </ul>
+      </section>
 
-  <section>
-    <header>
-      <h2>Education</h2>
-    </header>
-    <article>
-      <h3>Master of Science in Data Science</h3>
-      <p>University of Example</p>
-      <p><time datetime="2023-09">Sep 2023</time> – <time datetime="2025-06">Jun 2025</time></p>
-    </article>
-    <article>
-      <h3>Bachelor of Science in Electrical Engineering</h3>
-      <p>Example State University</p>
-      <p><time datetime="2017-09">Sep 2017</time> – <time datetime="2021-06">Jun 2021</time></p>
-    </article>
-  </section>
-
-  <section>
-    <header>
-      <h2>Work Experience</h2>
-    </header>
-    <article>
-      <h3>Systems Engineer</h3>
-      <p>Defense Company Inc.</p>
-      <p><time datetime="2021-08">Aug 2021</time> – Present</p>
-      <ul>
-        <li>Developed requirements traceability in DOORS for large defense programs</li>
-        <li>Integrated network architecture changes across multiple teams</li>
-        <li>Led verification activities for cybersecurity compliance</li>
-      </ul>
-    </article>
-  </section>
-
-  <section>
-    <header>
-      <h2>Certifications</h2>
-    </header>
-    <ul>
-      <li>ASEP (INCOSE)</li>
-      <li>Security+ (CompTIA)</li>
-      <li>Machine Learning Specialization</li>
-    </ul>
-  </section>
-
-  <section>
-    <header>
-      <h2>Technical Skills</h2>
-    </header>
-    <ul>
-      <li>Python, SQL, Spark, TensorFlow</li>
-      <li>Systems Engineering & MBSE</li>
-      <li>Cloud Platforms: AWS, Azure</li>
-    </ul>
-  </section>
+      <section class="card">
+        <h2>Technical Skills</h2>
+        <ul class="tags">
+          <li>Python</li><li>SQL</li><li>Spark</li><li>TensorFlow</li>
+          <li>Systems Engineering</li><li>MBSE</li>
+          <li>AWS</li><li>Azure</li>
+        </ul>
+      </section>
+    </aside>
+  </main>
 </body>
 </html>
