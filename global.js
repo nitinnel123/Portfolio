@@ -46,11 +46,10 @@ for (const p of pages) {
   a.href = url;
   a.textContent = p.title;
 
+  const currentPage = location.pathname.split("/").filter(Boolean).pop() || "";
+  const linkPage = a.pathname.split("/").filter(Boolean).pop() || "";
 
-  if (
-    a.host === location.host &&
-    normalize(a.pathname) === normalize(location.pathname)
-  ) {
+  if (a.host === location.host && currentPage === linkPage) {
     a.classList.add("current");
   }
 
