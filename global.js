@@ -23,33 +23,36 @@ const pages = [
   { url: "projects/", title: "Projects" },
   { url: "cv/", title: "CV" },
   { url: "contact/", title: "Contact" },
-  { url: "https://github.com/nitinnel123", title: "GitHub" }
+  { url: "https://github.com/nitinnel123", title: "GitHub" },
 ];
+
 
 const BASE_PATH =
   location.hostname === "localhost" || location.hostname === "127.0.0.1"
-    ? "/"                               
-    : "/Portfolio/";                    
-
+    ? "/"
+    : "/Portfolio/";
 
 const nav = document.createElement("nav");
 document.body.prepend(nav);
 
+function normalize(path) {
+  return path.replace(/index\.html$/, "").replace(/\/$/, "");
+}
+
 
 for (const p of pages) {
-  
   const url = p.url.startsWith("http") ? p.url : BASE_PATH + p.url;
-
   const a = document.createElement("a");
   a.href = url;
   a.textContent = p.title;
 
-  a.classList.toggle(
-  "current",
-  a.host === location.host &&
-    (location.pathname === a.pathname ||
-     location.pathname === a.pathname + "index.html")
-);
+
+  if (
+    a.host === location.host &&
+    normalize(a.pathname) === normalize(location.pathname)
+  ) {
+    a.classList.add("current");
+  }
 
   if (a.host !== location.host) a.target = "_blank";
 
