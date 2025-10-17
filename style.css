@@ -127,7 +127,10 @@ input, textarea, button { font: inherit; }
 }
 
 
-body.cv { background: #f8fafc; color: #0f172a; }
+@media (prefers-color-scheme: light) {
+  body.cv { background: #f8fafc; color: #0f172a; }
+  body.cv .cv-card { background: #fff; border: 1px solid #e5e7eb; }
+}
 
 
 body.cv .cv-container {
@@ -138,8 +141,6 @@ body.cv .cv-container {
 
 
 body.cv .cv-card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
   border-radius: 10px;
   padding: 1rem;
   margin: 1.25rem 0;
