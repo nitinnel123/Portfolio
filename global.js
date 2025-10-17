@@ -107,3 +107,5 @@ select.addEventListener("input", (e) => {
   applyScheme(value);
   localStorage.colorScheme = value; 
 });
+
+console.log("Color scheme applied:", getComputedStyle(document.documentElement).getPropertyValue("color-scheme"));
