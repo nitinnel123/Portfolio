@@ -27,3 +27,8 @@ const currentLink = navLinks.find((a) => {
 });
 
 currentLink?.classList.add("current");
+
+console.log("Current page path:", location.pathname);
+$$("nav a").forEach((a) => {
+  console.log("Link:", a.textContent, "→", a.pathname);
+});
