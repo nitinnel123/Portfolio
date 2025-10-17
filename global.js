@@ -45,12 +45,11 @@ for (const p of pages) {
   a.textContent = p.title;
 
   a.classList.toggle(
-    "current",
-    a.host === location.host &&
-      (location.pathname === a.pathname ||
-       location.pathname === a.pathname + "index.html" ||
-       location.pathname.startsWith(a.pathname))
-  );
+  "current",
+  a.host === location.host &&
+    (location.pathname === a.pathname ||
+     location.pathname === a.pathname + "index.html")
+);
 
   if (a.host !== location.host) a.target = "_blank";
 
