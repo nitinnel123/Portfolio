@@ -64,7 +64,7 @@ $$("nav a").forEach((a) => {
 });
 
 document.body.insertAdjacentHTML(
-  "afterbegin",
+  'afterbegin',
   `
   <label class="color-scheme">
     Theme:
