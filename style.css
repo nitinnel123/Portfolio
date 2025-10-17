@@ -163,3 +163,6 @@ body.cv .cv-card ul { margin: .35rem 0 0 1.1rem; }
 body.cv .cv-card a { text-decoration: inherit; color: inherit; }
 body.cv .cv-card a:hover { text-decoration: underline; }
 
+html {
+  color-scheme: light dark;
+}

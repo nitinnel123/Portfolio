@@ -62,3 +62,48 @@ console.log("Current page path:", location.pathname);
 $$("nav a").forEach((a) => {
   console.log("Link:", a.textContent, "→", a.pathname);
 });
+
+document.body.insertAdjacentHTML(
+  "afterbegin",
+  `
+  <label class="color-scheme">
+    Theme:
+    <select>
+      <option value="light dark">Automatic</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
+  </label>
+  `
+);
+
+
+const schemeLabel = document.querySelector(".color-scheme");
+schemeLabel.style.position = "absolute";
+schemeLabel.style.top = "1rem";
+schemeLabel.style.right = "1rem";
+schemeLabel.style.fontSize = "0.8rem";
+schemeLabel.style.fontFamily = "inherit";
+schemeLabel.style.userSelect = "none";
+
+
+const select = schemeLabel.querySelector("select");
+
+
+function applyScheme(value) {
+  document.documentElement.style.setProperty("color-scheme", value);
+}
+
+
+if ("colorScheme" in localStorage) {
+  const saved = localStorage.colorScheme;
+  applyScheme(saved);
+  select.value = saved;
+}
+
+
+select.addEventListener("input", (e) => {
+  const value = e.target.value;
+  applyScheme(value);
+  localStorage.colorScheme = value; 
+});
