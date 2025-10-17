@@ -6,12 +6,24 @@ function $$(selector, context = document) {
 
 const navLinks = $$("nav a");
 
-const currentLink = navLinks.find(
-  (a) =>
-    a.host === location.host &&
-    (location.pathname === a.pathname ||
-     location.pathname === a.pathname + "index.html" ||
-     location.pathname.startsWith(a.pathname))
-);
+let currentPath = location.pathname;
+
+
+const repoName = "Portfolio";
+if (currentPath.startsWith(repoName)) {
+  currentPath = currentPath.replace(repoName, "/");
+}
+
+if (currentPath.endsWith("index.html")) {
+  currentPath = currentPath.replace("index.html", "");
+}
+
+const currentLink = navLinks.find((a) => {
+  let linkPath = a.pathname;
+  if (linkPath.endsWith("index.html")) {
+    linkPath = linkPath.replace("index.html", "");
+  }
+  return a.host === location.host && linkPath === currentPath;
+});
 
 currentLink?.classList.add("current");
