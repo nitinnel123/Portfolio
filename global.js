@@ -1,5 +1,5 @@
 console.log("IT'S ALIVE!");
 
-function $$(selector, context = document) {
+export function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
