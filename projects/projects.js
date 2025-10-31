@@ -62,7 +62,7 @@ const arcs = pie(data);
 const svg = d3.select("#projects-pie-plot")
   .attr("width", 250)
   .attr("height", 250)
-  .attr("viewBox", [-radius - 10, -radius - 10, radius * 2 + 20, radius * 2 + 20])
+  .attr("viewBox", [-radius , -radius, radius * 2 , radius * 2 ])
   .attr("preserveAspectRatio", "xMidYMid meet");
 
 svg.selectAll("*").remove();
