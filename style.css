@@ -253,7 +253,7 @@ svg:has(path:hover) path:not(:hover) {
   width: 200px;
   height: 200px;
   display: block;
-  margin: 0 auto 0.5rem;
+  margin: 0;
   border-radius: 50%;     
   background: white;      
 }
@@ -283,7 +283,6 @@ svg:has(path:hover) path:not(:hover) {
   border-radius: 0.2em;
 }
 
-/* --- Highlighted Pie Slice --- */
 path.selected {
   fill: oklch(30.311% 0.09312 29.141);        
   stroke-width: 2px;
