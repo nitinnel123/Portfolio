@@ -49,8 +49,7 @@ async function initProjects() {
 const arcGenerator = d3.arc()
   .innerRadius(0)
   .outerRadius(radius)
-  .cornerRadius(5)      
-  .padAngle(0.01);     
+  .cornerRadius(5);     
 
 const pie = d3.pie()
   .value(d => d.value)
