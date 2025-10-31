@@ -250,18 +250,25 @@ svg:has(path:hover) path:not(:hover) {
 }
 
 #projects-pie-plot {
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
 }
 
 .legend {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
-  gap: 0.4rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
   list-style: none;
   padding: 0;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .legend li span {
@@ -269,6 +276,5 @@ svg:has(path:hover) path:not(:hover) {
   width: 0.9em;
   height: 0.9em;
   border-radius: 0.2em;
-  margin-right: 0.4em;
 }
 
