@@ -1,17 +1,15 @@
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 import { fetchJSON, renderProjects } from "../global.js";
 
 async function initProjects() {
+  const container = document.querySelector(".projects");
+
 
   const projects = await fetchJSON("../lib/projects.json");
-  const container = document.querySelector(".projects");
   renderProjects(projects, container, "h2");
 
-
   const title = document.querySelector(".projects-title");
-  if (title) {
-    title.textContent = `Projects (${projects.length})`;
-  }
-
+  if (title) title.textContent = `Projects (${projects.length})`;
 
   try {
     const username = "nitinnel123";
@@ -25,8 +23,8 @@ async function initProjects() {
       image: "../images/github.svg",
       description: repo.description || "No description available.",
       url: repo.html_url,
-    }));
-
+      year: "2025" 
+   }));
 
     githubProjects.forEach((proj) => {
       const article = document.createElement("article");
@@ -38,24 +36,12 @@ async function initProjects() {
       `;
       container.appendChild(article);
     });
+
+    projects.push(...githubProjects);
   } catch (error) {
     console.error("Error fetching GitHub repos:", error);
   }
-}
-
-
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
-import { fetchJSON, renderProjects } from "../global.js";
-
-async function initProjects() {
-  const projects = await fetchJSON("../lib/projects.json");
-  const container = document.querySelector(".projects");
-  renderProjects(projects, container, "h2");
-
-  const title = document.querySelector(".projects-title");
-  if (title) title.textContent = `Projects (${projects.length})`;
-
-  const rolledData = d3.rollups(projects, v => v.length, d => d.year);
+  const rolledData = d3.rollups(projects, v => v.length, d => d.year || "Unknown");
   const data = rolledData.map(([year, count]) => ({ label: year, value: count }));
 
   const svg = d3.select("#projects-pie-plot");
@@ -82,13 +68,15 @@ async function initProjects() {
   });
 
   const searchInput = document.querySelector(".searchBar");
-  searchInput.addEventListener("input", (event) => {
-    const query = event.target.value.toLowerCase();
-    const filtered = projects.filter(p =>
-      Object.values(p).join(" ").toLowerCase().includes(query)
-    );
-    renderProjects(filtered, container, "h2");
-  });
+  if (searchInput) {
+    searchInput.addEventListener("input", (event) => {
+      const query = event.target.value.toLowerCase();
+      const filtered = projects.filter(p =>
+        Object.values(p).join(" ").toLowerCase().includes(query)
+      );
+      renderProjects(filtered, container, "h2");
+    });
+  }
 }
 
 initProjects();
