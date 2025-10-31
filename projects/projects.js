@@ -47,16 +47,22 @@ async function initProjects() {
   const svg = d3.select("#projects-pie-plot");
   svg.selectAll("*").remove();
 
-  const arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
+  const arcGenerator = d3.arc().innerRadius(0).outerRadius(90);
   const pie = d3.pie().value(d => d.value);
   const colors = d3.scaleOrdinal(d3.schemeTableau10);
   const arcs = pie(data);
 
-  svg.selectAll("path")
-    .data(arcs)
-    .join("path")
-    .attr("d", arcGenerator)
-    .attr("fill", (_, i) => colors(i));
+const paths = svg.selectAll("path")
+  .data(arcs)
+  .join("path")
+  .attr("d", arcGenerator)
+  .attr("fill", (_, i) => colors(i))
+  .on("click", function(event, d) {
+    svg.selectAll("path").classed("selected", false);
+    d3.select(this).classed("selected", true);
+
+    d3.selectAll(".legend li").classed("selected", (item) => item.label === d.data.label);
+  });
 
   const legend = d3.select(".legend");
   legend.html("");

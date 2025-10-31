@@ -283,3 +283,15 @@ svg:has(path:hover) path:not(:hover) {
   border-radius: 0.2em;
 }
 
+path.selected {
+  fill: oklch(65% 0.25 30);       
+  stroke: black;                   
+  stroke-width: 2px;
+}
+
+.legend li.selected {
+  background: oklch(95% 0.1 30 / 0.4);
+  border-radius: 0.3rem;
+  padding: 0.2rem 0.5rem;
+  transition: background 0.2s ease;
+}
