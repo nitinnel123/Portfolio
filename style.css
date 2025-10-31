@@ -252,7 +252,12 @@ svg:has(path:hover) path:not(:hover) {
 #projects-pie-plot {
   width: 200px;
   height: 200px;
+  display: block;
+  margin: 0 auto 0.5rem;
+  border-radius: 50%;     
+  background: white;      
 }
+
 
 .legend {
   display: flex;
