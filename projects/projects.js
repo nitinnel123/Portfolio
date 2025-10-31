@@ -28,11 +28,10 @@ async function initProjects() {
     githubProjects.forEach((proj) => {
       const article = document.createElement("article");
       article.innerHTML = `
-        <h2>${proj.title}</h2>
-        <img src="${proj.image}" alt="${proj.title}">
-        <p class="project-year"><strong>Year:</strong> ${proj.year}</p>
-        <p>${proj.description}</p>
-        <p><a href="${proj.url}" target="_blank">View on GitHub</a></p>
+      <h2>${proj.title}</h2>
+      <img src="${proj.image}" alt="${proj.title}">
+      <p>${proj.description} <em>(${proj.year})</em></p>
+      <p><a href="${proj.url}" target="_blank">View on GitHub</a></p>
       `;
       container.appendChild(article);
     });
