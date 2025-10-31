@@ -10,20 +10,19 @@
 <body>
   <h1 class="projects-title">Projects</h1>
 
+  <div class="top-panel">
+    <input class="searchBar" type="search" placeholder=" Search projects…" />
+    
+    <div class="chart-container">
+      <h2>Projects by Year</h2>
+      <svg id="projects-pie-plot" viewBox="-40 -40 80 80"></svg>
+      <ul class="legend"></ul>
+    </div>
+  </div>
+
   <div class="projects"></div>
 
   <script type="module" src="projects.js"></script>
-
-<div class="projects"></div>
-
-<h2>Projects by Year</h2>
-<div class="chart-container">
-  <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
-  <ul class="legend"></ul>
-</div>
-
-<input class="searchBar" type="search" placeholder="Search projects…" />
-
-</div>
 </body>
+
 </html>
