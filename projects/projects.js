@@ -30,7 +30,8 @@ async function initProjects() {
       article.innerHTML = `
         <h2>${proj.title}</h2>
         <img src="${proj.image}" alt="${proj.title}">
-        <p>${proj.description} <em>(${proj.year})</em></p>
+        <p class="project-year"><strong>Year:</strong> ${proj.year}</p>
+        <p>${proj.description}</p>
         <p><a href="${proj.url}" target="_blank">View on GitHub</a></p>
       `;
       container.appendChild(article);
@@ -64,8 +65,7 @@ async function initProjects() {
 
   svg.selectAll("*").remove();
 
-  let selectedIndex = -1; 
-
+  let selectedIndex = -1;
 
   svg.selectAll("path")
     .data(arcs)
@@ -78,11 +78,8 @@ async function initProjects() {
     .style("cursor", "pointer")
     .on("click", function (event, d) {
       const index = arcs.indexOf(d);
+      selectedIndex = selectedIndex === index ? -1 : index; 
 
-    
-      selectedIndex = selectedIndex === index ? -1 : index;
-
-    
       svg.selectAll("path")
         .classed("selected", (_, i) => i === selectedIndex);
 
@@ -98,11 +95,16 @@ async function initProjects() {
     .data(data)
     .join("li")
     .html((d, i) => `
-      <span style="background:${colors(i)};display:inline-block;width:1em;height:1em;border-radius:0.2em;margin-right:0.5em;"></span>
+      <span style="background:${colors(i)};
+        display:inline-block;
+        width:1em;
+        height:1em;
+        border-radius:0.2em;
+        margin-right:0.5em;"></span>
       ${d.label} (${d.value})
     `)
     .style("cursor", "pointer")
-    .on("click", (_, d, i) => {
+    .on("click", (_, d) => {
       const index = data.findIndex(item => item.label === d.label);
       selectedIndex = selectedIndex === index ? -1 : index;
       svg.selectAll("path").classed("selected", (_, j) => j === selectedIndex);
