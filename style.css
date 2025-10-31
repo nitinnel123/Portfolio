@@ -223,3 +223,52 @@ svg:has(path:hover) path:not(:hover) {
 .selected {
   --color: oklch(60% 45% 0) !important;
 }
+
+.top-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.searchBar {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #bbb;
+  border-radius: 0.4rem;
+  width: min(90%, 400px);
+  background: oklch(98% 0 0 / 0.9);
+  color: inherit;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+#projects-pie-plot {
+  width: 160px;
+  height: 160px;
+}
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.legend li span {
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 0.2em;
+  margin-right: 0.4em;
+}
+
