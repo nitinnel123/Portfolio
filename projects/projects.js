@@ -30,7 +30,7 @@ async function initProjects() {
       article.innerHTML = `
         <h2>${proj.title}</h2>
         <img src="${proj.image}" alt="${proj.title}">
-        <p>${proj.description}</p>
+        <p>${proj.description} <em>(${proj.year})</em></p>
         <p><a href="${proj.url}" target="_blank">View on GitHub</a></p>
       `;
       container.appendChild(article);
