@@ -44,25 +44,43 @@ async function initProjects() {
   const rolledData = d3.rollups(projects, v => v.length, d => d.year || "Unknown");
   const data = rolledData.map(([year, count]) => ({ label: year, value: count }));
 
-  const svg = d3.select("#projects-pie-plot");
-  svg.selectAll("*").remove();
+  const radius = 100;
 
-  const arcGenerator = d3.arc().innerRadius(0).outerRadius(90);
-  const pie = d3.pie().value(d => d.value);
-  const colors = d3.scaleOrdinal(d3.schemeTableau10);
-  const arcs = pie(data);
+const arcGenerator = d3.arc()
+  .innerRadius(0)
+  .outerRadius(radius)
+  .cornerRadius(5)      
+  .padAngle(0.01);     
 
-const paths = svg.selectAll("path")
+const pie = d3.pie()
+  .value(d => d.value)
+  .sort(null);         
+
+const colors = d3.scaleOrdinal(d3.schemeTableau10);
+const arcs = pie(data);
+
+const svg = d3.select("#projects-pie-plot")
+  .attr("width", 250)
+  .attr("height", 250)
+  .attr("viewBox", [-radius - 10, -radius - 10, radius * 2 + 20, radius * 2 + 20])
+  .attr("preserveAspectRatio", "xMidYMid meet");
+
+svg.selectAll("*").remove();
+svg.selectAll("path")
   .data(arcs)
   .join("path")
   .attr("d", arcGenerator)
   .attr("fill", (_, i) => colors(i))
+  .attr("stroke", "white")
+  .attr("stroke-width", 1.5)
+  .attr("stroke-linejoin", "round")
   .on("click", function(event, d) {
     svg.selectAll("path").classed("selected", false);
     d3.select(this).classed("selected", true);
-
-    d3.selectAll(".legend li").classed("selected", (item) => item.label === d.data.label);
+    d3.selectAll(".legend li").classed("selected", item => item.label === d.data.label);
   });
+
+  
 
   const legend = d3.select(".legend");
   legend.html("");
