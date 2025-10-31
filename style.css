@@ -253,8 +253,7 @@ svg:has(path:hover) path:not(:hover) {
   width: 200px;
   height: 200px;
   display: block;
-  margin: 0 auto 0.5rem;
-  border-radius: 50%;     
+  margin: 0 auto 0.5rem;    
   background: white;      
 }
 
