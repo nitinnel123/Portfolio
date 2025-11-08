@@ -295,3 +295,12 @@ path.selected {
   padding: 0.2rem 0.5rem;
   transition: background 0.2s ease;
 }
+
+.grid line {
+  stroke: #ccc;
+  stroke-opacity: 0.5;
+  shape-rendering: crispEdges;
+}
+.grid path {
+  stroke-width: 0;
+}

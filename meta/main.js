@@ -149,6 +149,17 @@ function renderScatterplot(data) {
     .attr("transform", `translate(0,${innerHeight})`)
     .call(xAxis);
 
+  const yGrid = d3.axisLeft(yScale)
+  .tickSize(-innerWidth)   
+  .tickFormat("");         
+
+  g.append("g")
+  .attr("class", "grid")
+  .call(yGrid)
+  .selectAll("line")
+  .attr("stroke", "#ccc")
+  .attr("stroke-opacity", 0.5);
+
   g.append("g").call(yAxis);
 
 
