@@ -7,7 +7,7 @@ async function loadData() {
     depth: +row.depth,
     length: +row.length,
     date: new Date(row.date + "T00:00" + row.timezone),
-    datetime: new Date(row.datetime),
+    datetime: new Date(`${row.date}T${row.time}${row.timezone || ""}`),
   }));
   return data;
 }
@@ -180,3 +180,5 @@ function renderScatterplot(data) {
     .attr("text-anchor", "middle")
     .text("Hour of Day");
 }
+
+renderScatterplot(data);
