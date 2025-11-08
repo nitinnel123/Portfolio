@@ -107,3 +107,76 @@ function renderQuantitativeStats(stats) {
 
 const stats = computeStats(data);
 renderQuantitativeStats(stats);
+
+function renderScatterplot(data) {
+  const svg = d3.select("#scatterplot");
+  const width = +svg.attr("width");
+  const height = +svg.attr("height");
+  const margin = { top: 30, right: 30, bottom: 40, left: 50 };
+
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+
+  const g = svg.append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+
+  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  data.forEach(d => {
+    d.dateObj = new Date(d.datetime);
+    d.day = days[d.dateObj.getDay()];
+    d.hour = d.dateObj.getHours() + d.dateObj.getMinutes() / 60; 
+  });
+
+
+  const xScale = d3.scaleBand()
+    .domain(days)
+    .range([0, innerWidth])
+    .padding(0.1);
+
+  const yScale = d3.scaleLinear()
+    .domain([0, 24])
+    .range([innerHeight, 0]);
+
+  const xAxis = d3.axisBottom(xScale);
+  const yAxis = d3.axisLeft(yScale)
+    .tickFormat(d => `${d}:00`);
+
+  g.append("g")
+    .attr("transform", `translate(0,${innerHeight})`)
+    .call(xAxis);
+
+  g.append("g").call(yAxis);
+
+
+  g.selectAll("circle")
+    .data(data)
+    .join("circle")
+    .attr("cx", d => xScale(d.day) + xScale.bandwidth() / 2)
+    .attr("cy", d => yScale(d.hour))
+    .attr("r", 4)
+    .attr("fill", "steelblue")
+    .attr("opacity", 0.7);
+
+
+  g.append("text")
+    .attr("x", innerWidth / 2)
+    .attr("y", -10)
+    .attr("text-anchor", "middle")
+    .style("font-weight", "bold")
+    .text("Commit Time by Day of Week");
+
+  g.append("text")
+    .attr("x", innerWidth / 2)
+    .attr("y", innerHeight + 35)
+    .attr("text-anchor", "middle")
+    .text("Day of Week");
+
+  g.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -innerHeight / 2)
+    .attr("y", -40)
+    .attr("text-anchor", "middle")
+    .text("Hour of Day");
+}
