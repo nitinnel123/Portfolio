@@ -162,15 +162,39 @@ function renderScatterplot(data) {
 
   g.append("g").call(yAxis);
 
+ function updateTooltipVisibility(isVisible) {
+  const tooltip = document.getElementById('commit-tooltip');
+  tooltip.hidden = !isVisible;
+}
 
-  g.selectAll("circle")
-    .data(data)
-    .join("circle")
-    .attr("cx", d => xScale(d.day) + xScale.bandwidth() / 2)
-    .attr("cy", d => yScale(d.hour))
-    .attr("r", 4)
-    .attr("fill", "steelblue")
-    .attr("opacity", 0.7);
+
+ g.selectAll("circle")
+  .data(data)
+  .join("circle")
+  .attr("cx", d => xScale(d.day) + xScale.bandwidth() / 2)
+  .attr("cy", d => yScale(d.hour))
+  .attr("r", 4)
+  .attr("fill", "steelblue")
+  .attr("opacity", 0.7)
+  .on("mouseover", (event, d) => {
+  renderTooltipContent(d);
+  updateTooltipVisibility(true);
+  const tooltip = d3.select("#commit-tooltip");
+  tooltip
+    .style("position", "absolute")
+    .style("left", event.pageX + 15 + "px")
+    .style("top", event.pageY - 30 + "px");
+  })
+  .on("mousemove", (event) => {
+  d3.select("#commit-tooltip")
+    .style("left", event.pageX + 15 + "px")
+    .style("top", event.pageY - 30 + "px");
+  })
+  .on("mouseout", () => {
+  updateTooltipVisibility(false);
+  });
+
+
 
 
   g.append("text")
@@ -195,3 +219,21 @@ function renderScatterplot(data) {
 }
 
 renderScatterplot(data);
+
+function renderTooltipContent(commit) {
+  const link = document.getElementById("commit-link");
+  const date = document.getElementById("commit-date");
+  const author = document.getElementById("commit-author");
+  const lines = document.getElementById("commit-lines");
+
+  if (!commit || Object.keys(commit).length === 0) return;
+
+  link.href = commit.url;
+  link.textContent = commit.id;
+  date.textContent = commit.datetime.toLocaleString("en", {
+    dateStyle: "full",
+    timeStyle: "short",
+  });
+  author.textContent = commit.author || "Unknown";
+  lines.textContent = commit.lines?.length || 0;
+}
