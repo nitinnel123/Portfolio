@@ -37,6 +37,8 @@ function processCommits(data) {
 
 const commits = processCommits(data);
 
+console.log("Sample data:", data[0]);
+
 function renderCommitInfo(data, commits) {
   const dl = d3.select("#stats").append("dl").attr("class", "stats");
 
