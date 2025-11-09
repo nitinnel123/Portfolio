@@ -1,11 +1,13 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
+
 async function loadData() {
   const data = await d3.csv("loc.csv", (row) => ({
     ...row,
     line: +row.line,
     depth: +row.depth,
     length: +row.length,
+    language: row.language || "Unknown",
     date: new Date(row.date + "T00:00" + row.timezone),
     datetime: new Date(`${row.date}T${row.time}${row.timezone || ""}`),
   }));
@@ -37,7 +39,7 @@ function processCommits(data) {
 }
 
 const commits = processCommits(data);
-console.log("Sample data:", data[0]);
+
 
 function renderCommitInfo(data, commits) {
   const dl = d3.select("#stats").append("dl").attr("class", "stats");
@@ -57,6 +59,7 @@ function renderCommitInfo(data, commits) {
 
 renderCommitInfo(data, commits);
 
+
 function computeStats(data) {
   const fileLengths = d3.rollups(
     data,
@@ -75,13 +78,10 @@ function computeStats(data) {
 
   const busiestPeriod = d3.greatest(workByPeriod, (d) => d[1]);
 
-  return {
-    averageFileLength,
-    deepestFile,
-    longestLine,
-    busiestPeriod,
-  };
+  return { averageFileLength, deepestFile, longestLine, busiestPeriod };
 }
+
+const stats = computeStats(data);
 
 function renderQuantitativeStats(stats) {
   const dl = d3.select("#stats").append("dl").attr("class", "stats");
@@ -99,8 +99,8 @@ function renderQuantitativeStats(stats) {
   dl.append("dd").text(stats.busiestPeriod[0]);
 }
 
-const stats = computeStats(data);
 renderQuantitativeStats(stats);
+
 
 function renderScatterplot(data) {
   const svg = d3.select("#scatterplot");
@@ -140,17 +140,17 @@ function renderScatterplot(data) {
 
   g.append("g").call(yAxis);
 
+  const [minLines, maxLines] = d3.extent(data, (d) => d.totalLines);
+  const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
+
+  const sortedCommits = d3.sort(data, (d) => -d.totalLines);
+
   function updateTooltipVisibility(isVisible) {
     const tooltip = document.getElementById("commit-tooltip");
     tooltip.hidden = !isVisible;
   }
 
-  const [minLines, maxLines] = d3.extent(data, (d) => d.totalLines);
-  const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
-
-const sortedCommits = d3.sort(data, d => -d.totalLines);
-
-g.selectAll("circle")
+  g.selectAll("circle")
     .data(sortedCommits)
     .join("circle")
     .attr("cx", (d) => xScale(d.day) + xScale.bandwidth() / 2)
@@ -177,44 +177,68 @@ g.selectAll("circle")
     .style("font-weight", "bold")
     .text("Commit Time by Day of Week");
 
-    function createBrushSelector(svg) {
 
-  const brush = d3.brush()
-  .on("start brush end", brushed);
+  function createBrushSelector(svg) {
+    const brush = d3.brush().on("start brush end", brushed);
+    svg.call(brush);
 
-svg.call(brush);
+    svg.selectAll(".overlay").lower();
+    svg.selectAll("circle").raise();
+
+    function brushed(event) {
+      const selection = event.selection;
+
+      if (!selection) {
+        g.selectAll("circle").attr("stroke", null).style("opacity", 0.7);
+        d3.select("#selected-summary").html("");
+        return;
+      }
+
+      const [[x0, y0], [x1, y1]] = selection;
+      const selected = [];
+
+      g.selectAll("circle")
+        .attr("stroke", (d) => {
+          const cx = xScale(d.day) + xScale.bandwidth() / 2;
+          const cy = yScale(d.hour);
+          const inside = x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+          if (inside) selected.push(d);
+          return inside ? "black" : null;
+        })
+        .style("opacity", (d) => {
+          const cx = xScale(d.day) + xScale.bandwidth() / 2;
+          const cy = yScale(d.hour);
+          return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1 ? 1 : 0.3;
+        });
 
 
-svg.selectAll("circle").raise();
+      const summaryDiv = d3.select("#selected-summary").html("");
+      summaryDiv.append("p").text(`${selected.length} commits selected`);
 
+     
+      if (selected.length > 0) {
+        const allLines = selected.flatMap((c) => c.lines);
+        const languageCounts = d3.rollups(
+          allLines,
+          (v) => v.length,
+          (d) => d.language
+        );
+        const total = d3.sum(languageCounts, (d) => d[1]);
+        const languagePercentages = languageCounts.map(([lang, count]) => ({
+          lang,
+          pct: ((count / total) * 100).toFixed(1),
+        }));
 
-function brushed(event) {
-  const selection = event.selection;
-
-  if (!selection) {
-    
-    g.selectAll("circle").attr("stroke", null).attr("opacity", 0.7);
-    return;
+        summaryDiv.append("h4").text("Language Breakdown");
+        const ul = summaryDiv.append("ul");
+        languagePercentages.forEach((d) => {
+          ul.append("li").text(`${d.lang}: ${d.pct}%`);
+        });
+      }
+    }
   }
 
-  const [[x0, y0], [x1, y1]] = selection;
-
-  g.selectAll("circle")
-    .attr("stroke", (d) => {
-      const cx = xScale(d.day) + xScale.bandwidth() / 2;
-      const cy = yScale(d.hour);
-      return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1 ? "black" : null;
-    })
-    .attr("opacity", (d) => {
-      const cx = xScale(d.day) + xScale.bandwidth() / 2;
-      const cy = yScale(d.hour);
-      return x0 <= cx && cx <= x1 && y0 <= cy && y0 <= cy && cy <= y1 ? 1 : 0.4;
-    });
-}
-
-    }
-createBrushSelector(svg);
-
+  createBrushSelector(svg);
 }
 
 renderScatterplot(commits);
@@ -241,7 +265,6 @@ function updateTooltipPosition(event) {
   const tooltip = document.getElementById("commit-tooltip");
   const offsetX = 15;
   const offsetY = 15;
-
   tooltip.style.left = `${event.pageX + offsetX}px`;
   tooltip.style.top = `${event.pageY - offsetY}px`;
 }
