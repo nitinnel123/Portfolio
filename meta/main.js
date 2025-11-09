@@ -212,7 +212,7 @@ function renderScatterplot(data) {
     .text("Hour of Day");
 }
 
-renderScatterplot(data);
+renderScatterplot(commits);
 
 function renderTooltipContent(commit) {
   const link = document.getElementById("commit-link");
