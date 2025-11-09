@@ -177,21 +177,15 @@ function renderScatterplot(data) {
   .attr("fill", "steelblue")
   .attr("opacity", 0.7)
   .on("mouseover", (event, d) => {
-  renderTooltipContent(d);
-  updateTooltipVisibility(true);
-  const tooltip = d3.select("#commit-tooltip");
-  tooltip
-    .style("position", "absolute")
-    .style("left", event.pageX + 15 + "px")
-    .style("top", event.pageY - 30 + "px");
+  renderTooltipContent(d);            
+  updateTooltipVisibility(true);     
+  updateTooltipPosition(event);      
   })
   .on("mousemove", (event) => {
-  d3.select("#commit-tooltip")
-    .style("left", event.pageX + 15 + "px")
-    .style("top", event.pageY - 30 + "px");
+  updateTooltipPosition(event);       
   })
   .on("mouseout", () => {
-  updateTooltipVisibility(false);
+  updateTooltipVisibility(false);     
   });
 
 
@@ -236,4 +230,14 @@ function renderTooltipContent(commit) {
   });
   author.textContent = commit.author || "Unknown";
   lines.textContent = commit.lines?.length || 0;
+}
+
+function updateTooltipPosition(event) {
+  const tooltip = document.getElementById("commit-tooltip");
+
+  const offsetX = 15;
+  const offsetY = 15;
+
+  tooltip.style.left = `${event.pageX + offsetX}px`;
+  tooltip.style.top = `${event.pageY - offsetY}px`;
 }

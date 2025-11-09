@@ -305,12 +305,20 @@ path.selected {
   stroke-width: 0;
 }
 
-dl.info {
-  transition-duration: 500ms;
-  transition-property: opacity, visibility;
+.info.tooltip {
+  position: absolute;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.75em 1em;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  opacity: 1;
+  visibility: visible;
 }
 
-dl.info[hidden]:not(:hover, :focus-within) {
+.info.tooltip[hidden] {
   opacity: 0;
   visibility: hidden;
 }
