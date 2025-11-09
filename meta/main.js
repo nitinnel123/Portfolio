@@ -148,8 +148,10 @@ function renderScatterplot(data) {
   const [minLines, maxLines] = d3.extent(data, (d) => d.totalLines);
   const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
 
-  g.selectAll("circle")
-    .data(data)
+const sortedCommits = d3.sort(data, d => -d.totalLines);
+
+g.selectAll("circle")
+    .data(sortedCommits)
     .join("circle")
     .attr("cx", (d) => xScale(d.day) + xScale.bandwidth() / 2)
     .attr("cy", (d) => yScale(d.hour))
