@@ -1,6 +1,5 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
-
 async function loadData() {
   const data = await d3.csv("loc.csv", (row) => ({
     ...row,
@@ -40,7 +39,6 @@ function processCommits(data) {
 
 const commits = processCommits(data);
 
-
 function renderCommitInfo(data, commits) {
   const dl = d3.select("#stats").append("dl").attr("class", "stats");
 
@@ -59,7 +57,6 @@ function renderCommitInfo(data, commits) {
 
 renderCommitInfo(data, commits);
 
-
 function computeStats(data) {
   const fileLengths = d3.rollups(
     data,
@@ -75,9 +72,7 @@ function computeStats(data) {
     (v) => v.length,
     (d) => new Date(d.datetime).toLocaleString("en", { dayPeriod: "short" })
   );
-
   const busiestPeriod = d3.greatest(workByPeriod, (d) => d[1]);
-
   return { averageFileLength, deepestFile, longestLine, busiestPeriod };
 }
 
@@ -88,33 +83,39 @@ function renderQuantitativeStats(stats) {
 
   dl.append("dt").text("Average file length");
   dl.append("dd").text(stats.averageFileLength.toFixed(2));
-
   dl.append("dt").text("Deepest file");
   dl.append("dd").text(stats.deepestFile.file);
-
   dl.append("dt").text("Longest line (chars)");
   dl.append("dd").text(stats.longestLine.length);
-
   dl.append("dt").text("Busiest time of day");
   dl.append("dd").text(stats.busiestPeriod[0]);
 }
 
 renderQuantitativeStats(stats);
 
-
 function renderScatterplot(data) {
   const svg = d3.select("#scatterplot");
-  const width = 1000;
-  const height = 600;
+  const width = 1000,
+    height = 600;
   svg.attr("width", width).attr("height", height);
-  const margin = { top: 30, right: 30, bottom: 40, left: 50 };
 
-  const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
+  const margin = { top: 30, right: 30, bottom: 40, left: 50 },
+    innerWidth = width - margin.left - margin.right,
+    innerHeight = height - margin.top - margin.bottom;
 
-  const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+  const g = svg
+    .append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
 
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   data.forEach((d) => {
     d.dateObj = new Date(d.datetime);
@@ -129,7 +130,6 @@ function renderScatterplot(data) {
   const yAxis = d3.axisLeft(yScale).tickFormat((d) => `${d}:00`);
 
   g.append("g").attr("transform", `translate(0,${innerHeight})`).call(xAxis);
-
   const yGrid = d3.axisLeft(yScale).tickSize(-innerWidth).tickFormat("");
   g.append("g")
     .attr("class", "grid")
@@ -137,12 +137,10 @@ function renderScatterplot(data) {
     .selectAll("line")
     .attr("stroke", "#ccc")
     .attr("stroke-opacity", 0.5);
-
   g.append("g").call(yAxis);
 
   const [minLines, maxLines] = d3.extent(data, (d) => d.totalLines);
   const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
-
   const sortedCommits = d3.sort(data, (d) => -d.totalLines);
 
   function updateTooltipVisibility(isVisible) {
@@ -177,17 +175,16 @@ function renderScatterplot(data) {
     .style("font-weight", "bold")
     .text("Commit Time by Day of Week");
 
+  function createBrushSelector(g, innerWidth, innerHeight) {
+    const brush = d3.brush()
+      .extent([[0, 0], [innerWidth, innerHeight]])
+      .on("start brush end", brushed);
 
-  function createBrushSelector(svg) {
-    const brush = d3.brush().on("start brush end", brushed);
-    svg.call(brush);
-
-    svg.selectAll(".overlay").lower();
-    svg.selectAll("circle").raise();
+    g.append("g").attr("class", "brush").call(brush);
+    g.selectAll("circle").raise();
 
     function brushed(event) {
       const selection = event.selection;
-
       if (!selection) {
         g.selectAll("circle").attr("stroke", null).style("opacity", 0.7);
         d3.select("#selected-summary").html("");
@@ -211,11 +208,10 @@ function renderScatterplot(data) {
           return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1 ? 1 : 0.3;
         });
 
-
       const summaryDiv = d3.select("#selected-summary").html("");
-      summaryDiv.append("p").text(`${selected.length} commits selected`);
+      summaryDiv.append("p").attr("class", "summary-count")
+        .text(`${selected.length} commits selected`);
 
-     
       if (selected.length > 0) {
         const allLines = selected.flatMap((c) => c.lines);
         const languageCounts = d3.rollups(
@@ -224,21 +220,27 @@ function renderScatterplot(data) {
           (d) => d.language
         );
         const total = d3.sum(languageCounts, (d) => d[1]);
-        const languagePercentages = languageCounts.map(([lang, count]) => ({
+        const languageStats = languageCounts.map(([lang, count]) => ({
           lang,
+          count,
           pct: ((count / total) * 100).toFixed(1),
         }));
 
-        summaryDiv.append("h4").text("Language Breakdown");
-        const ul = summaryDiv.append("ul");
-        languagePercentages.forEach((d) => {
-          ul.append("li").text(`${d.lang}: ${d.pct}%`);
-        });
+        const container = summaryDiv.append("div").attr("class", "language-summary");
+
+        const blocks = container.selectAll(".lang-block")
+          .data(languageStats)
+          .join("div")
+          .attr("class", "lang-block");
+
+        blocks.append("h3").text((d) => d.lang);
+        blocks.append("p").attr("class", "line-count").text((d) => `${d.count} lines`);
+        blocks.append("p").attr("class", "percent").text((d) => `(${d.pct}%)`);
       }
     }
   }
 
-  createBrushSelector(svg);
+  createBrushSelector(g, innerWidth, innerHeight);
 }
 
 renderScatterplot(commits);
@@ -248,9 +250,7 @@ function renderTooltipContent(commit) {
   const date = document.getElementById("commit-date");
   const author = document.getElementById("commit-author");
   const lines = document.getElementById("commit-lines");
-
   if (!commit || Object.keys(commit).length === 0) return;
-
   link.href = commit.url;
   link.textContent = commit.id;
   date.textContent = commit.datetime.toLocaleString("en", {
@@ -263,8 +263,6 @@ function renderTooltipContent(commit) {
 
 function updateTooltipPosition(event) {
   const tooltip = document.getElementById("commit-tooltip");
-  const offsetX = 15;
-  const offsetY = 15;
-  tooltip.style.left = `${event.pageX + offsetX}px`;
-  tooltip.style.top = `${event.pageY - offsetY}px`;
+  tooltip.style.left = `${event.pageX + 15}px`;
+  tooltip.style.top = `${event.pageY - 15}px`;
 }

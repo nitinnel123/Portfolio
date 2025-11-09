@@ -17,24 +17,25 @@
   </main>
 
   <div id="stats"></div>
+
   <section>
-  <h2>Commits by Day and Time</h2>
-  <svg id="scatterplot" width="600" height="400"></svg>
+    <h2>Commits by Day and Time</h2>
+    <svg id="scatterplot" width="1000" height="600"></svg>
 
-  <dl id="commit-tooltip" class="info tooltip" hidden>
-  <dt>Commit</dt>
-  <dd><a href="" id="commit-link" target="_blank"></a></dd>
-  <dt>Date</dt>
-  <dd id="commit-date"></dd>
-  <dt>Author</dt>
-  <dd id="commit-author"></dd>
-  <dt>Lines edited</dt>
-  <dd id="commit-lines"></dd>
-</dl>
 
-<p id="selection-count">No commits selected</p>
-<dl id="language-breakdown" class="stats"></dl>
+    <dl id="commit-tooltip" class="info tooltip" hidden>
+      <dt>Commit</dt>
+      <dd><a href="" id="commit-link" target="_blank"></a></dd>
+      <dt>Date</dt>
+      <dd id="commit-date"></dd>
+      <dt>Author</dt>
+      <dd id="commit-author"></dd>
+      <dt>Lines edited</dt>
+      <dd id="commit-lines"></dd>
+    </dl>
 
+    <div id="selected-summary"></div>
   </section>
+
 </body>
 </html>
