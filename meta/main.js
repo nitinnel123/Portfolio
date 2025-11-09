@@ -104,8 +104,9 @@ renderQuantitativeStats(stats);
 
 function renderScatterplot(data) {
   const svg = d3.select("#scatterplot");
-  const width = +svg.attr("width");
-  const height = +svg.attr("height");
+  const width = 1000;
+  const height = 600;
+  svg.attr("width", width).attr("height", height);
   const margin = { top: 30, right: 30, bottom: 40, left: 50 };
 
   const innerWidth = width - margin.left - margin.right;
