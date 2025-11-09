@@ -177,6 +177,44 @@ g.selectAll("circle")
     .style("font-weight", "bold")
     .text("Commit Time by Day of Week");
 
+    function createBrushSelector(svg) {
+
+  const brush = d3.brush()
+  .on("start brush end", brushed);
+
+svg.call(brush);
+
+
+svg.selectAll("circle").raise();
+
+
+function brushed(event) {
+  const selection = event.selection;
+
+  if (!selection) {
+    
+    g.selectAll("circle").attr("stroke", null).attr("opacity", 0.7);
+    return;
+  }
+
+  const [[x0, y0], [x1, y1]] = selection;
+
+  g.selectAll("circle")
+    .attr("stroke", (d) => {
+      const cx = xScale(d.day) + xScale.bandwidth() / 2;
+      const cy = yScale(d.hour);
+      return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1 ? "black" : null;
+    })
+    .attr("opacity", (d) => {
+      const cx = xScale(d.day) + xScale.bandwidth() / 2;
+      const cy = yScale(d.hour);
+      return x0 <= cx && cx <= x1 && y0 <= cy && y0 <= cy && cy <= y1 ? 1 : 0.4;
+    });
+}
+
+    }
+createBrushSelector(svg);
+
 }
 
 renderScatterplot(commits);
