@@ -375,11 +375,6 @@ path.selected {
 }
 
 
-#stats dl.stats:not(:last-child) {
-  border-bottom: 1px solid #e5e5e5;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.75rem;
-}
 
 
 
