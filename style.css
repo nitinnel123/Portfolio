@@ -339,9 +339,6 @@ path.selected {
   shape-rendering: crispEdges;
 }
 
-/* =============================
-   Refined Stats (Meta Page)
-============================= */
 
 #stats {
   max-width: 800px;
@@ -402,10 +399,9 @@ abbr[title] {
 #selected-summary p {
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   color: #222;
 }
-
 
 #selected-summary .lang-grid {
   display: flex;
@@ -420,25 +416,36 @@ abbr[title] {
 .lang-card {
   text-align: center;
   font-family: 'Courier New', monospace;
+  background: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 130px;
 }
 
+.lang-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+
 .lang-card h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 0.4rem;
   color: #111;
 }
 
+
 .lang-card p {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   margin: 0.2rem 0;
   color: #222;
 }
 
-
 .lang-card .pct {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #555;
 }
- 
