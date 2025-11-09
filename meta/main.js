@@ -175,18 +175,6 @@ function renderScatterplot(data) {
     .style("font-weight", "bold")
     .text("Commit Time by Day of Week");
 
-  g.append("text")
-    .attr("x", innerWidth / 2)
-    .attr("y", innerHeight + 35)
-    .attr("text-anchor", "middle")
-    .text("Day of Week");
-
-  g.append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("x", -innerHeight / 2)
-    .attr("y", -40)
-    .attr("text-anchor", "middle")
-    .text("Hour of Day");
 }
 
 renderScatterplot(commits);
