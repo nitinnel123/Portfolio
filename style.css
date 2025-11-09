@@ -339,35 +339,51 @@ path.selected {
   shape-rendering: crispEdges;
 }
 
+/* =============================
+   Refined Stats (Meta Page)
+============================= */
+
 #stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   font-family: system-ui, sans-serif;
 }
 
-.stats {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+#stats dl.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 2rem;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
 }
 
-.stats dt {
+
+#stats dt {
   font-weight: 600;
-  color: #333;
   font-size: 1rem;
-  margin-top: 0.75rem;
+  color: #222;
+  text-align: right;
 }
 
 
-.stats dd {
-  font-size: 1.25rem;
+#stats dd {
+  margin: 0;
+  font-size: 1.1rem;
   font-weight: 500;
   color: #111;
-  margin: 0.25rem 0 0.75rem 0;
 }
+
+
+#stats dl.stats:not(:last-child) {
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
 
 
 abbr[title] {
