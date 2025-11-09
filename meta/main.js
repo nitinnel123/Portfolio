@@ -6,7 +6,7 @@ async function loadData() {
     line: +row.line,
     depth: +row.depth,
     length: +row.length,
-    language: row.language || "Unknown",
+    language: row.type || "Unknown",
     date: new Date(row.date + "T00:00" + row.timezone),
     datetime: new Date(`${row.date}T${row.time}${row.timezone || ""}`),
   }));
