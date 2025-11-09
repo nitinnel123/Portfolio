@@ -376,3 +376,53 @@ abbr[title] {
   cursor: help;
   color: #0056b3;
 }
+
+#selected-summary {
+  text-align: center;
+  margin-top: 2rem;
+  font-family: system-ui, sans-serif;
+}
+
+#selected-summary p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  color: #222;
+}
+
+
+#selected-summary .lang-grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+
+.lang-card {
+  text-align: center;
+  font-family: 'Courier New', monospace;
+}
+
+.lang-card h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  color: #111;
+}
+
+.lang-card p {
+  font-size: 1.1rem;
+  margin: 0.2rem 0;
+  color: #222;
+}
+
+
+.lang-card .pct {
+  font-size: 1rem;
+  color: #555;
+}
+ 
