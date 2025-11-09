@@ -13,6 +13,7 @@ async function loadData() {
 }
 
 const data = await loadData();
+
 function processCommits(data) {
   return d3
     .groups(data, (d) => d.commit)
@@ -36,7 +37,6 @@ function processCommits(data) {
 }
 
 const commits = processCommits(data);
-
 console.log("Sample data:", data[0]);
 
 function renderCommitInfo(data, commits) {
@@ -55,29 +55,21 @@ function renderCommitInfo(data, commits) {
   dl.append("dd").text(d3.mean(data, (d) => d.depth).toFixed(2));
 }
 
-
 renderCommitInfo(data, commits);
 
 function computeStats(data) {
-  
   const fileLengths = d3.rollups(
     data,
-    (v) => d3.max(v, (d) => d.line),  
+    (v) => d3.max(v, (d) => d.line),
     (d) => d.file
   );
 
   const averageFileLength = d3.mean(fileLengths, (d) => d[1]);
-
-  
   const deepestFile = d3.greatest(data, (d) => d.depth);
-
-  
   const longestLine = d3.greatest(data, (d) => d.length);
-
-  
   const workByPeriod = d3.rollups(
     data,
-    (v) => v.length, 
+    (v) => v.length,
     (d) => new Date(d.datetime).toLocaleString("en", { dayPeriod: "short" })
   );
 
@@ -119,77 +111,61 @@ function renderScatterplot(data) {
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
-  const g = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
+  const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
   const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  data.forEach(d => {
+  data.forEach((d) => {
     d.dateObj = new Date(d.datetime);
     d.day = days[d.dateObj.getDay()];
-    d.hour = d.dateObj.getHours() + d.dateObj.getMinutes() / 60; 
+    d.hour = d.dateObj.getHours() + d.dateObj.getMinutes() / 60;
   });
 
-
-  const xScale = d3.scaleBand()
-    .domain(days)
-    .range([0, innerWidth])
-    .padding(0.1);
-
-  const yScale = d3.scaleLinear()
-    .domain([0, 24])
-    .range([innerHeight, 0]);
+  const xScale = d3.scaleBand().domain(days).range([0, innerWidth]).padding(0.1);
+  const yScale = d3.scaleLinear().domain([0, 24]).range([innerHeight, 0]);
 
   const xAxis = d3.axisBottom(xScale);
-  const yAxis = d3.axisLeft(yScale)
-    .tickFormat(d => `${d}:00`);
+  const yAxis = d3.axisLeft(yScale).tickFormat((d) => `${d}:00`);
 
+  g.append("g").attr("transform", `translate(0,${innerHeight})`).call(xAxis);
+
+  const yGrid = d3.axisLeft(yScale).tickSize(-innerWidth).tickFormat("");
   g.append("g")
-    .attr("transform", `translate(0,${innerHeight})`)
-    .call(xAxis);
-
-  const yGrid = d3.axisLeft(yScale)
-  .tickSize(-innerWidth)   
-  .tickFormat("");         
-
-  g.append("g")
-  .attr("class", "grid")
-  .call(yGrid)
-  .selectAll("line")
-  .attr("stroke", "#ccc")
-  .attr("stroke-opacity", 0.5);
+    .attr("class", "grid")
+    .call(yGrid)
+    .selectAll("line")
+    .attr("stroke", "#ccc")
+    .attr("stroke-opacity", 0.5);
 
   g.append("g").call(yAxis);
 
- function updateTooltipVisibility(isVisible) {
-  const tooltip = document.getElementById('commit-tooltip');
-  tooltip.hidden = !isVisible;
-}
+  function updateTooltipVisibility(isVisible) {
+    const tooltip = document.getElementById("commit-tooltip");
+    tooltip.hidden = !isVisible;
+  }
 
+  const [minLines, maxLines] = d3.extent(data, (d) => d.totalLines);
+  const rScale = d3.scaleSqrt().domain([minLines, maxLines]).range([2, 30]);
 
- g.selectAll("circle")
-  .data(data)
-  .join("circle")
-  .attr("cx", d => xScale(d.day) + xScale.bandwidth() / 2)
-  .attr("cy", d => yScale(d.hour))
-  .attr("r", 4)
-  .attr("fill", "steelblue")
-  .attr("opacity", 0.7)
-  .on("mouseover", (event, d) => {
-  renderTooltipContent(d);            
-  updateTooltipVisibility(true);     
-  updateTooltipPosition(event);      
-  })
-  .on("mousemove", (event) => {
-  updateTooltipPosition(event);       
-  })
-  .on("mouseout", () => {
-  updateTooltipVisibility(false);     
-  });
-
-
-
+  g.selectAll("circle")
+    .data(data)
+    .join("circle")
+    .attr("cx", (d) => xScale(d.day) + xScale.bandwidth() / 2)
+    .attr("cy", (d) => yScale(d.hour))
+    .attr("r", (d) => rScale(d.totalLines))
+    .attr("fill", "steelblue")
+    .style("fill-opacity", 0.7)
+    .on("mouseenter", (event, commit) => {
+      d3.select(event.currentTarget).style("fill-opacity", 1);
+      renderTooltipContent(commit);
+      updateTooltipVisibility(true);
+      updateTooltipPosition(event);
+    })
+    .on("mousemove", (event) => updateTooltipPosition(event))
+    .on("mouseleave", (event) => {
+      d3.select(event.currentTarget).style("fill-opacity", 0.7);
+      updateTooltipVisibility(false);
+    });
 
   g.append("text")
     .attr("x", innerWidth / 2)
@@ -234,7 +210,6 @@ function renderTooltipContent(commit) {
 
 function updateTooltipPosition(event) {
   const tooltip = document.getElementById("commit-tooltip");
-
   const offsetX = 15;
   const offsetY = 15;
 
