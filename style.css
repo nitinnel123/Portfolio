@@ -338,3 +338,41 @@ path.selected {
   animation: marching-ants 2s linear infinite;
   shape-rendering: crispEdges;
 }
+
+#stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+  font-family: system-ui, sans-serif;
+}
+
+.stats {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.stats dt {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+  margin-top: 0.75rem;
+}
+
+
+.stats dd {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #111;
+  margin: 0.25rem 0 0.75rem 0;
+}
+
+
+abbr[title] {
+  text-decoration: none;
+  border-bottom: 1px dotted #aaa;
+  cursor: help;
+  color: #0056b3;
+}
